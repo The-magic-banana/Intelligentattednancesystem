@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  #  文件上传下载大小限制
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  application:
+    name: reggie_take_out
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/attendence?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456789
+
+
+mybatis-plus:
+  configuration:
+    # 开启驼峰命名
+    map-underscore-to-camel-case: true
+    # 打印输出sql执行情况
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 雪花算法(默认选项),主键生成策略,自动生成不重复随机数,对应数据库中的主键类型为bigint或者varchar
+      id-type: ASSIGN_ID
+  mapper-locations: classpath:mapper/*.xml
+  typeAlFFiasesPackage: cn.cachalot.intelligentattendancesystem.entity
+
+userdata:
+  path: D:/
