@@ -17,13 +17,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         //静态资源映射 前一个参数是访问路径，后一个参数是文件路径
-        registry.addResourceHandler("backend/**").addResourceLocations("classpath:/backend/");
-        registry.addResourceHandler("front/**").addResourceLocations("classpath:/front/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
         //super.addResourceHandlers(registry);
     }
 
     /**
-     * 扩展spring mvc消息转换器
+     * 扩展spring mvc消息转换器 解决 js 雪花算法ID问题
      */
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

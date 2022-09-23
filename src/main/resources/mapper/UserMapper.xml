@@ -2,6 +2,76 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.cachalot.intelligentattendancesystem.mapper.UserMapper">
+    <insert id="addEmployee" parameterType="user">
+        insert into user(`user_id`, `user_name`, `password`, `real_name`,
+                         `level`, `sex`, `birthday`, `phone`, `address`,
+                         `face_data`, `finger_data`, `describe`)
+            value (#{user.userId}, #{user.userName},
+                   #{user.password}, #{user.realName},
+                   #{user.level}, #{user.sex}, #{user.birthday},
+                   #{user.phone}, #{user.address},
+                   #{user.faceData}, #{user.fingerData},
+                   #{user.describe})
+    </insert>
+    <update id="updateOne">
+        update user
+        set
+        <if test="user.userName != null">
+            `user_name`=#{user.userName},
+        </if>
+        <if test="user.password != null">
+            `password`=#{user.password},
+        </if>
+        <if test="user.realName != null">
+            `real_name`=#{user.realName},
+        </if>
+        <if test="user.level != null">
+            `level`=#{user.level},
+        </if>
+        <if test="user.department != null">
+            `department`=#{user.department},
+        </if>
+        <if test="user.sex != null">
+            `sex`=#{user.sex},
+        </if>
+        <if test="user.birthday != null">
+            `birthday`=#{user.birthday},
+        </if>
+        <if test="user.phone != null">
+            `phone`=#{user.phone},
+        </if>
+        <if test="user.address != null">
+            `address`=#{user.address},
+        </if>
+        <if test="user.faceData != null">
+            `face_data`=#{user.faceData},
+        </if>
+        <if test="user.fingerData != null">
+            `finger_data`=#{user.fingerData},
+        </if>
+        <if test="user.describe != null">
+            `describe`=#{user.describe},
+        </if>
+        where `user_id` = #{user.userId}
+    </update>
 
-
+    <select id="selectOneByUsername" resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+        where `user_name` = #{userName}
+    </select>
+    <select id="getAllUser" resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+    </select>
+    <select id="getUserByDepartment" resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+        where `department` = #{department}
+    </select>
+    <select id="selectOneByUserId" resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+        where `user_id` = #{userId}
+    </select>
 </mapper>

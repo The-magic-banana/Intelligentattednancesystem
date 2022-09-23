@@ -1,10 +1,10 @@
 server:
-  port: 8080
+  port: 80
 
 spring:
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
+  #  jackson:
+  #    date-format: yyyy-MM-dd HH:mm:ss
+  #    time-zone: GMT+8
   #  文件上传下载大小限制
   servlet:
     multipart:
@@ -31,7 +31,12 @@ mybatis-plus:
       # 雪花算法(默认选项),主键生成策略,自动生成不重复随机数,对应数据库中的主键类型为bigint或者varchar
       id-type: ASSIGN_ID
   mapper-locations: classpath:mapper/*.xml
-  typeAlFFiasesPackage: cn.cachalot.intelligentattendancesystem.entity
+  typeAliasesPackage: cn.cachalot.intelligentattendancesystem.entity
 
-userdata:
-  path: D:/
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+#  path: D:/
