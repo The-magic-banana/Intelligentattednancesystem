@@ -1,5 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.controller;
 
+import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
@@ -65,8 +66,8 @@ public class UserController {
     @PostMapping("/add")
     public R<String> save(HttpServletRequest request, @RequestBody User user) {
         user.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        userService.addEmployee(user);
-        return R.success("添加成功");
+        R<String> res = userService.addEmployee(user);
+        return res;
     }
 
     /**
@@ -78,8 +79,8 @@ public class UserController {
      */
     @PutMapping("/update")
     public R<String> update(HttpServletRequest request, @RequestBody User user) {
-        userService.updateOne(user);
-        return R.success("修改成功");
+        R<String> res = userService.updateOne(user);
+        return res;
     }
 
     /**
@@ -87,15 +88,13 @@ public class UserController {
      *
      * @param pageNum  查第几页
      * @param pageSize 每页多少条
-     * @param user     userId必填
      * @return
      */
     @PostMapping("/getManagedUserInfo")
-    public R<PageInfo<User>> getUserInfo(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestBody User user) {
+    public R<PageInfo<User>> getUserInfo(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<User> list = userService.getManagedUserInfo(user.getUserId());
+        List<User> list = userService.getManagedUserInfo(BaseContext.getId());
         PageInfo<User> pageInfo = new PageInfo<User>(list);
         return R.success(pageInfo);
     }
-
 }

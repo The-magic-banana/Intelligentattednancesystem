@@ -74,4 +74,14 @@
         from user
         where `user_id` = #{userId}
     </select>
+    <select id="selectLevelByUserId" resultType="java.lang.Integer">
+        select `level`
+        from user
+        where `user_id` = #{userId}
+    </select>
+    <select id="selectDepartmentByUserId" resultType="java.lang.String">
+        select `department`
+        from user
+        where `user_id` = #{userId}
+    </select>
 </mapper>
