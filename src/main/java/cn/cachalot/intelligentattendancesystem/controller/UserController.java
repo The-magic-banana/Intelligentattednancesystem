@@ -2,58 +2,37 @@ package cn.cachalot.intelligentattendancesystem.controller;
 
 import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
+import cn.cachalot.intelligentattendancesystem.common.TokenUtil;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
+import cn.cachalot.intelligentattendancesystem.vo.uservo.LoginPara;
+import cn.cachalot.intelligentattendancesystem.vo.uservo.LoginRes;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户管理相关接口")
 public class UserController {
     @Resource
     UserService userService;
 
-    /**
-     * 登陆接口
-     *
-     * @param request
-     * @param user    userName 和 password必填
-     * @return
-     */
+    @ApiOperation("用户登陆")
     @PostMapping("/login")
-    public R<User> login(HttpServletRequest request, @RequestBody User user) {
-        log.info(user.toString());
-        String password = user.getPassword();
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
-        User res = userService.selectOneByUsername(user.getUserName());
-        if (res == null) {
-            return R.error("用户名或密码错误!");
-        }
-        if (!res.getPassword().equals(password)) {
-            return R.error("用户名或密码错误!");
-        }
-        request.getSession().setAttribute("User", res.getUserId());
-        return R.success(res);
-    }
-
-    /**
-     * 登出接口
-     *
-     * @param request
-     * @return
-     */
-    @PostMapping("/logout")
-    public R<String> logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("User");
-        return R.success("退出成功");
+    @ApiImplicitParam(name = "loginPara", value = "登陆信息", required = true)
+    public R<LoginRes> login(HttpServletRequest request, @RequestBody LoginPara loginPara) {
+        return userService.login(loginPara);
     }
 
     /**
@@ -64,6 +43,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/add")
+    @ApiOperation("添加新用户")
+    @ApiImplicitParam(name = "user", required = true)
     public R<String> save(HttpServletRequest request, @RequestBody User user) {
         user.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
         R<String> res = userService.addEmployee(user);
@@ -77,7 +58,9 @@ public class UserController {
      * @param user    不修改的数据留空
      * @return
      */
+    @ApiOperation("修改用户数据")
     @PutMapping("/update")
+    @ApiImplicitParam(name = "user", value = "修改信息,不改的留空", required = true)
     public R<String> update(HttpServletRequest request, @RequestBody User user) {
         R<String> res = userService.updateOne(user);
         return res;
@@ -90,7 +73,9 @@ public class UserController {
      * @param pageSize 每页多少条
      * @return
      */
+    @ApiOperation("分页查询有权限管理的用户信息")
     @PostMapping("/getManagedUserInfo")
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "第几页", required = true), @ApiImplicitParam(name = "pageSize", value = "每一页有多少数据", required = true)})
     public R<PageInfo<User>> getUserInfo(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<User> list = userService.getManagedUserInfo(BaseContext.getId());

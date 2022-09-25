@@ -2,12 +2,16 @@ package cn.cachalot.intelligentattendancesystem.service.impl;
 
 import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
+import cn.cachalot.intelligentattendancesystem.common.TokenUtil;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.mapper.UserMapper;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
+import cn.cachalot.intelligentattendancesystem.vo.uservo.LoginPara;
+import cn.cachalot.intelligentattendancesystem.vo.uservo.LoginRes;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -76,5 +80,23 @@ public class UserServiceImpl implements UserService {
             list.add(user);
             return list;
         }
+    }
+
+    @Override
+    public R<LoginRes> login(LoginPara loginPara) {
+        String password = loginPara.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        User user = this.selectOneByUsername(loginPara.getUserName());
+        if (user == null) {
+            return R.error("用户名或密码错误!");
+        }
+        if (!user.getPassword().equals(password)) {
+            return R.error("用户名或密码错误!");
+        }
+        String token = TokenUtil.creatToken(user);
+        LoginRes loginRes = new LoginRes();
+        loginRes.setUser(user);
+        loginRes.setToken(token);
+        return R.success(loginRes);
     }
 }
