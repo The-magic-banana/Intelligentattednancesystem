@@ -1,4 +1,4 @@
-package cn.cachalot.intelligentattendancesystem.vo.uservo;
+package cn.cachalot.intelligentattendancesystem.dto.userdto;
 
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import io.swagger.annotations.ApiModel;

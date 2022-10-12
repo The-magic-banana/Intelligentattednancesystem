@@ -1,7 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.common;
 
 import cn.cachalot.intelligentattendancesystem.entity.User;
-import cn.cachalot.intelligentattendancesystem.vo.uservo.LoginPara;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;

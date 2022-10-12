@@ -2,11 +2,10 @@ package cn.cachalot.intelligentattendancesystem.controller;
 
 import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
-import cn.cachalot.intelligentattendancesystem.common.TokenUtil;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
-import cn.cachalot.intelligentattendancesystem.vo.uservo.LoginPara;
-import cn.cachalot.intelligentattendancesystem.vo.uservo.LoginRes;
+import cn.cachalot.intelligentattendancesystem.dto.userdto.LoginPara;
+import cn.cachalot.intelligentattendancesystem.dto.userdto.LoginRes;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -44,7 +41,7 @@ public class UserController {
      */
     @PostMapping("/add")
     @ApiOperation("添加新用户")
-    @ApiImplicitParam(name = "user", required = true)
+    @ApiImplicitParam(name = "user", value = "员工信息", required = true)
     public R<String> save(HttpServletRequest request, @RequestBody User user) {
         user.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
         R<String> res = userService.addEmployee(user);
