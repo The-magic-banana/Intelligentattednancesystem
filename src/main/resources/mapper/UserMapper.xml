@@ -4,54 +4,58 @@
 <mapper namespace="cn.cachalot.intelligentattendancesystem.mapper.UserMapper">
     <insert id="addEmployee" parameterType="user">
         insert into user(`user_id`, `user_name`, `password`, `real_name`,
-                         `level`, `sex`, `birthday`, `phone`, `address`,
-                         `face_data`, `finger_data`, `describe`)
+                         `level`, `department`, `sex`, `birthday`, `phone`, `address`,
+                         `face_data`, `finger_data`, `describe`, `is_disable`)
             value (#{user.userId}, #{user.userName},
                    #{user.password}, #{user.realName},
-                   #{user.level}, #{user.sex}, #{user.birthday},
+                   #{user.level}, #{user.department}, #{user.sex}, #{user.birthday},
                    #{user.phone}, #{user.address},
                    #{user.faceData}, #{user.fingerData},
-                   #{user.describe})
+                   #{user.describe}, #{user.isDisable})
     </insert>
     <update id="updateOne">
         update user
-        set
-        <if test="user.userName != null">
-            `user_name`=#{user.userName},
-        </if>
-        <if test="user.password != null">
-            `password`=#{user.password},
-        </if>
-        <if test="user.realName != null">
-            `real_name`=#{user.realName},
-        </if>
-        <if test="user.level != null">
-            `level`=#{user.level},
-        </if>
-        <if test="user.department != null">
-            `department`=#{user.department},
-        </if>
-        <if test="user.sex != null">
-            `sex`=#{user.sex},
-        </if>
-        <if test="user.birthday != null">
-            `birthday`=#{user.birthday},
-        </if>
-        <if test="user.phone != null">
-            `phone`=#{user.phone},
-        </if>
-        <if test="user.address != null">
-            `address`=#{user.address},
-        </if>
-        <if test="user.faceData != null">
-            `face_data`=#{user.faceData},
-        </if>
-        <if test="user.fingerData != null">
-            `finger_data`=#{user.fingerData},
-        </if>
-        <if test="user.describe != null">
-            `describe`=#{user.describe},
-        </if>
+        <set>
+            <if test="user.userName != null">
+                `user_name`=#{user.userName},
+            </if>
+            <if test="user.password != null">
+                `password`=#{user.password},
+            </if>
+            <if test="user.realName != null">
+                `real_name`=#{user.realName},
+            </if>
+            <if test="user.level != null">
+                `level`=#{user.level},
+            </if>
+            <if test="user.department != null">
+                `department`=#{user.department},
+            </if>
+            <if test="user.sex != null">
+                `sex`=#{user.sex},
+            </if>
+            <if test="user.birthday != null">
+                `birthday`=#{user.birthday},
+            </if>
+            <if test="user.phone != null">
+                `phone`=#{user.phone},
+            </if>
+            <if test="user.address != null">
+                `address`=#{user.address},
+            </if>
+            <if test="user.faceData != null">
+                `face_data`=#{user.faceData},
+            </if>
+            <if test="user.fingerData != null">
+                `finger_data`=#{user.fingerData},
+            </if>
+            <if test="user.describe != null">
+                `describe`=#{user.describe},
+            </if>
+            <if test="user.isDisable != null">
+                `is_disable`=#{user.isDisable},
+            </if>
+        </set>
         where `user_id` = #{user.userId}
     </update>
 
@@ -83,5 +87,9 @@
         select `department`
         from user
         where `user_id` = #{userId}
+    </select>
+    <select id="getAllUserId" resultType="java.lang.Long">
+        select `user_id`
+        from user
     </select>
 </mapper>

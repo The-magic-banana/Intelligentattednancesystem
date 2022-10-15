@@ -32,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R<String> addEmployee(User user) {
+        if (userMapper.selectOneByUsername(user.getUserName()) != null) {
+            return R.error("用户名已存在!");
+        }
         Integer level = userMapper.selectLevelByUserId(BaseContext.getId());
         String department = userMapper.selectDepartmentByUserId(BaseContext.getId());
         //level数字越小权限越大
@@ -45,8 +48,14 @@ public class UserServiceImpl implements UserService {
             return R.error("你没有权限添加其他部门员工!");
         }
         user.setUserId(IdWorker.getId());
+        log.info("添加员工:{}", user);
         userMapper.addEmployee(user);
         return R.success("添加成功");
+    }
+
+    @Override
+    public List<Long> getAllUserId() {
+        return userMapper.getAllUserId();
     }
 
     @Override

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cachalot.intelligentattendancesystem.mapper.AttendMapper">
+
+    <insert id="creatUserAttend">
+        insert into user_attend (day, attend_id, user_id) VALUES
+        <foreach collection="attendIds" item="attendId" index="index" separator=",">
+            (#{date},#{attendId},#{userIds.get(index)})
+        </foreach>
+    </insert>
+    <insert id="creatAttend">
+        insert into attend (attend_id) VALUES
+        <foreach collection="attendIds" item="attendId" index="index" separator=",">
+            (#{attendId})
+        </foreach>
+    </insert>
+</mapper>

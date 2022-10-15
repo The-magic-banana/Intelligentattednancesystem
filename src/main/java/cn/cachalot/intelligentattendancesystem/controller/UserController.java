@@ -44,8 +44,8 @@ public class UserController {
     @ApiImplicitParam(name = "user", value = "员工信息", required = true)
     public R<String> save(HttpServletRequest request, @RequestBody User user) {
         user.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        R<String> res = userService.addEmployee(user);
-        return res;
+        return userService.addEmployee(user);
+
     }
 
     /**

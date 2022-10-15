@@ -13,6 +13,8 @@ public interface UserService {
 
     R<String> addEmployee(User user);
 
+    List<Long> getAllUserId();
+
     R<String> updateOne(User user);
 
     List<User> getManagedUserInfo(Long userId);

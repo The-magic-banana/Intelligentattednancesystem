@@ -19,12 +19,12 @@ public class User implements Serializable {
     /**
      * 登陆用户名
      */
-    @ApiModelProperty(value = "登陆用户名")
+    @ApiModelProperty(value = "登陆用户名", required = true)
     private String userName;
     /**
      * 密码
      */
-    @ApiModelProperty("密码")
+    @ApiModelProperty("密码(默认123456)")
     private String password;
     /**
      * 真实姓名
@@ -34,12 +34,12 @@ public class User implements Serializable {
     /**
      * 级别
      */
-    @ApiModelProperty("权限级别,0:可管理所有人,1:可管理所属部门,2:只能管自己")
+    @ApiModelProperty(value = "权限级别,0:可管理所有人,1:可管理所属部门,2:只能管自己", required = true)
     private Integer level;
     /**
      * 所属部门
      */
-    @ApiModelProperty("所属部门")
+    @ApiModelProperty(value = "所属部门", required = true)
     private String department;
     /**
      * 性别
@@ -76,4 +76,7 @@ public class User implements Serializable {
      */
     @ApiModelProperty("备注")
     private String describe;
+
+    @ApiModelProperty("是否被禁用")
+    private Boolean isDisable;
 }
