@@ -3,8 +3,8 @@ package cn.cachalot.intelligentattendancesystem.service.impl;
 import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
 import cn.cachalot.intelligentattendancesystem.common.TokenUtil;
-import cn.cachalot.intelligentattendancesystem.dto.userdto.LoginPara;
-import cn.cachalot.intelligentattendancesystem.dto.userdto.LoginRes;
+import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginPara;
+import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginRes;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.mapper.UserMapper;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
@@ -60,6 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R<String> updateOne(User user) {
+        if (userMapper.selectOneByUsername(user.getUserName()) != null && !Objects.equals(user.getUserId(), BaseContext.getId())) {
+            return R.error("用户名已存在!");
+        }
         if (Objects.equals(user.getUserId(), BaseContext.getId())) {
             userMapper.updateOne(user);
             return R.success("修改成功");
@@ -87,6 +90,21 @@ public class UserServiceImpl implements UserService {
         } else {
             List<User> list = new ArrayList<>();
             list.add(user);
+            return list;
+        }
+    }
+
+    @Override
+    public List<Long> getManagedUserId(Long userId) {
+        User user = userMapper.selectOneByUserId(userId);
+        Integer level = user.getLevel();
+        if (level.equals(0)) {
+            return userMapper.getAllUserId();
+        } else if (level.equals(1)) {
+            return userMapper.getUserIdByDepartment(user.getDepartment());
+        } else {
+            List<Long> list = new ArrayList<>();
+            list.add(userId);
             return list;
         }
     }

@@ -1,5 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.service.impl;
 
+import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import cn.cachalot.intelligentattendancesystem.mapper.AttendMapper;
 import cn.cachalot.intelligentattendancesystem.service.AttendService;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
@@ -42,5 +43,34 @@ public class AttendServiceImpl implements AttendService {
         attendMapper.creatAttend(attendIds);
         attendMapper.creatUserAttend(date, mapList);
 
+    }
+
+    @Override
+    public void checkFirstSign() {
+        Date date = new Date(System.currentTimeMillis());
+        attendMapper.checkFirstSign(date);
+    }
+
+    @Override
+    public void checkSecondSign() {
+        Date date = new Date(System.currentTimeMillis());
+        attendMapper.checkSecondSign(date);
+    }
+
+    @Override
+    public void checkThirdSign() {
+        Date date = new Date(System.currentTimeMillis());
+        attendMapper.checkThirdSign(date);
+    }
+
+    @Override
+    public void checkFourthSign() {
+        Date date = new Date(System.currentTimeMillis());
+        attendMapper.checkFourthSign(date);
+    }
+
+    @Override
+    public List<UserAttend> getSingleAttend(Long userId, Integer days) {
+        return attendMapper.getSingleAttend(userId, days);
     }
 }

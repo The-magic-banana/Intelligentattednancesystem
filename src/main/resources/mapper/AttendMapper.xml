@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.cachalot.intelligentattendancesystem.mapper.AttendMapper">
-
     <insert id="creatUserAttend">
         insert into user_attend (day, attend_id, user_id) VALUES
         <foreach collection="mapList" item="map" index="index" separator=",">
@@ -15,4 +14,49 @@
             (#{attendId})
         </foreach>
     </insert>
+    <update id="checkFirstSign">
+        update user_attend
+        <set>
+            <if test="status == 6">
+                `status` = 5,
+            </if>
+        </set>
+    </update>
+    <update id="checkSecondSign">
+        update user_attend
+        <set>
+            <if test="status == 5">
+                `status` = 4,
+            </if>
+        </set>
+        where `attend_id` in (select `attend_id` from attend where second_time = null )
+    </update>
+    <update id="checkThirdSign">
+        update user_attend
+        <set>
+            <if test="status == 1">
+                `status` = 5,
+            </if>
+        </set>
+        where `attend_id` in (select `attend_id` from attend where third_time = null )
+    </update>
+    <update id="checkFourthSign">
+        update user_attend
+        <set>
+            <if test="status == 5">
+                `status` = 4,
+            </if>
+        </set>
+        where `attend_id` in (select `attend_id` from attend where fourth_time = null )
+        and `attend_id` in (select `attend_id` from attend where third_time = null )
+    </update>
+
+    <select id="getSingleAttend" resultType="cn.cachalot.intelligentattendancesystem.entity.UserAttend">
+        select *
+        from (select *
+              from `user_attend`
+              where `user_id` = #{userId}
+              order by day desc
+              limit ${days}) as t
+    </select>
 </mapper>

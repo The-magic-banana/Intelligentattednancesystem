@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@ApiModel("考勤记录详细信息")
+@ApiModel(description = "考勤记录详细信息")
 public class Attend implements Serializable {
     private static final long serialVersionUID = 1L;
     /**

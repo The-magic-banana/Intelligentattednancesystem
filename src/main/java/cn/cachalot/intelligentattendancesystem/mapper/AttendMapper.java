@@ -1,5 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.mapper;
 
+import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +13,14 @@ public interface AttendMapper {
     void creatUserAttend(@Param("date") Date date, @Param("mapList") List<Map> mapList);
 
     void creatAttend(@Param("attendIds") List<Long> attendIds);
+
+    void checkFirstSign(@Param("date") Date date);
+
+    void checkSecondSign(@Param("date") Date date);
+
+    void checkThirdSign(@Param("date") Date date);
+
+    void checkFourthSign(@Param("date") Date date);
+
+    List<UserAttend> getSingleAttend(@Param("userId") Long userId, @Param("days") Integer days);
 }

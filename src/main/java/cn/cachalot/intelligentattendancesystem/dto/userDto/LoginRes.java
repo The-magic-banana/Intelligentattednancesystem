@@ -1,4 +1,4 @@
-package cn.cachalot.intelligentattendancesystem.dto.userdto;
+package cn.cachalot.intelligentattendancesystem.dto.userDto;
 
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import io.swagger.annotations.ApiModel;
@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel("User管理登陆接口出参")
+@ApiModel(description = "User管理登陆接口出参")
 public class LoginRes implements Serializable {
     private static final long serialVersionUID = 1L;
 

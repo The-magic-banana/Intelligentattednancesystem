@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @Data
-@ApiModel("用户考勤简略信息")
+@ApiModel(description = "用户考勤简略信息")
 public class UserAttend implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
@@ -35,6 +35,6 @@ public class UserAttend implements Serializable {
      * 5:迟到或早退
      * 6:未达到该日期
      */
-    @ApiModelProperty("考勤状态1:正常考勤\n" + "2:放假\n" + "3:请假\n" + "4:缺勤\n" + "5:迟到或早退\n" + "6:未达到该日期")
+    @ApiModelProperty("考勤状态1:正常考勤\n" + "2:放假\n" + "3:请假\n" + "4:缺勤\n" + "5:迟到或早退\n" + "6:未结算")
     private Integer status;
 }

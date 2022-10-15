@@ -1,8 +1,8 @@
 package cn.cachalot.intelligentattendancesystem.service;
 
 import cn.cachalot.intelligentattendancesystem.common.R;
-import cn.cachalot.intelligentattendancesystem.dto.userdto.LoginPara;
-import cn.cachalot.intelligentattendancesystem.dto.userdto.LoginRes;
+import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginPara;
+import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginRes;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 
 
@@ -18,6 +18,8 @@ public interface UserService {
     R<String> updateOne(User user);
 
     List<User> getManagedUserInfo(Long userId);
+
+    List<Long> getManagedUserId(Long userId);
 
     R<LoginRes> login(LoginPara loginPara);
 }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @Data
-@ApiModel("员工信息")
+@ApiModel(description = "员工信息")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
@@ -77,6 +77,6 @@ public class User implements Serializable {
     @ApiModelProperty("备注")
     private String describe;
 
-    @ApiModelProperty("是否被禁用")
+    @ApiModelProperty("是否被禁用(0:未禁用,1:已禁用)")
     private Boolean isDisable;
 }

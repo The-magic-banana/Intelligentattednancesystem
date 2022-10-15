@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@ApiModel("请假记录信息")
+@ApiModel(description = "请假记录信息")
 public class Leave implements Serializable {
     private static final long serialVersionUID = 1L;
     /**

@@ -15,12 +15,13 @@ public class CreatAttend {
     @Resource
     AttendService attendService;
 
-    //    @Scheduled(cron = "0 0 0 * * ?")
-//    public void creatAttend() {
-//        attendService.creatAttend();
-//    }
-    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void creatAttend() {
         attendService.creatAttend();
     }
+
+//    @Scheduled(cron = "*/5 * * * * ?")
+//    public void creatAttend() {
+//        attendService.creatAttend();
+//    }
 }

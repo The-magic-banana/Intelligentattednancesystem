@@ -92,4 +92,10 @@
         select `user_id`
         from user
     </select>
+
+    <select id="getUserIdByDepartment" resultType="java.lang.Long">
+        select `user_id`
+        from user
+        where `department` = #{department}
+    </select>
 </mapper>

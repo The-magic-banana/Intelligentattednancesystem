@@ -19,6 +19,8 @@ public interface UserMapper {
 
     List<User> getUserByDepartment(@Param("department") String department);
 
+    List<Long> getUserIdByDepartment(@Param("department") String department);
+
     User selectOneByUserId(@Param("userId") Long userId);
 
     Integer selectLevelByUserId(@Param("userId") Long userId);
