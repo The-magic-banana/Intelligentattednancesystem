@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -26,12 +28,19 @@ public class AttendServiceImpl implements AttendService {
     public void creatAttend() {
         List<Long> userIds = userService.getAllUserId();
         List<Long> attendIds = new ArrayList<>();
+        List<Map> mapList = new ArrayList<>();
+        Long tempId;
         for (int i = 0; i < userIds.size(); i++) {
-            attendIds.add(IdWorker.getId());
+            Map map = new HashMap();
+            tempId = IdWorker.getId();
+            map.put("userId", userIds.get(i));
+            map.put("attendId", tempId);
+            attendIds.add(tempId);
+            mapList.add(map);
         }
         Date date = new Date(System.currentTimeMillis());
         attendMapper.creatAttend(attendIds);
-//        attendMapper.creatUserAttend(userIds, date, attendIds);
+        attendMapper.creatUserAttend(date, mapList);
 
     }
 }

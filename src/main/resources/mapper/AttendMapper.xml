@@ -5,13 +5,13 @@
 
     <insert id="creatUserAttend">
         insert into user_attend (day, attend_id, user_id) VALUES
-        <foreach collection="attendIds" item="attendId" index="index" separator=",">
-            (#{date},#{attendId},#{userIds.get(index)})
+        <foreach collection="mapList" item="map" index="index" separator=",">
+            (#{date},#{map.attendId},#{map.userId})
         </foreach>
     </insert>
     <insert id="creatAttend">
         insert into attend (attend_id) VALUES
-        <foreach collection="attendIds" item="attendId" index="index" separator=",">
+        <foreach collection="attendIds" item="attendId" separator=",">
             (#{attendId})
         </foreach>
     </insert>

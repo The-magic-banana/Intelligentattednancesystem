@@ -5,10 +5,11 @@ import org.apache.ibatis.annotations.Param;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AttendMapper {
-    void creatUserAttend(@Param("userIds") List<Long> userIds, @Param("date") Date date, @Param("attendIds") List<Long> attendIds);
+    void creatUserAttend(@Param("date") Date date, @Param("mapList") List<Map> mapList);
 
     void creatAttend(@Param("attendIds") List<Long> attendIds);
 }
