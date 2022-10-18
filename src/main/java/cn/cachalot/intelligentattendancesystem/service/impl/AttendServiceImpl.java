@@ -1,10 +1,12 @@
 package cn.cachalot.intelligentattendancesystem.service.impl;
 
+import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import cn.cachalot.intelligentattendancesystem.mapper.AttendMapper;
 import cn.cachalot.intelligentattendancesystem.service.AttendService;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +72,23 @@ public class AttendServiceImpl implements AttendService {
     }
 
     @Override
-    public List<UserAttend> getSingleAttend(Long userId, Integer days) {
-        return attendMapper.getSingleAttend(userId, days);
+    public List<UserAttend> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days) {
+        PageHelper.startPage(pageNum, pageSize);
+        return attendMapper.getAttendByUserId(userId, days);
+    }
+
+    @Override
+    public List<UserAttend> getAttendByDate(Integer pageNum, Integer pageSize, Long id, Date date) {
+        Integer level = userService.getUserLevel(id);
+        PageHelper.startPage(pageNum, pageSize);
+        if (level.equals(0)) {
+            return attendMapper.getAllAttendByDate(date);
+        } else if (level.equals(1)) {
+            return attendMapper.getAttendByDateAndDepartment(userService.getDepartmentById(id), date);
+        } else {
+            List<UserAttend> list = new ArrayList<>();
+            list.add(attendMapper.getOneAttendByDateAndUserId(id, date));
+            return list;
+        }
     }
 }

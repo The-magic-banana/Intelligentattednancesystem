@@ -2,6 +2,7 @@ package cn.cachalot.intelligentattendancesystem.service;
 
 import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface AttendService {
@@ -15,5 +16,7 @@ public interface AttendService {
 
     void checkFourthSign();
 
-    List<UserAttend> getSingleAttend(Long userId, Integer days);
+    List<UserAttend> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days);
+
+    List<UserAttend> getAttendByDate(Integer pageNum, Integer pageSize, Long id, Date date);
 }

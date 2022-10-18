@@ -17,11 +17,15 @@ public interface UserService {
 
     R<String> updateOne(User user);
 
-    List<User> getManagedUserInfo(Long userId);
+    List<User> getManagedUserInfo(Integer pageNum, Integer pageSize, Long userId);
 
     List<Long> getManagedUserId(Long userId);
 
     R<LoginRes> login(LoginPara loginPara);
 
-    List<User> getManagedUserInfoByUserNameOrId(Long id, String userNameOrId);
+    List<User> getManagedUserInfoByUserNameOrId(Integer pageNum, Integer pageSize, Long id, String userNameOrId);
+
+    Integer getUserLevel(Long id);
+
+    String getDepartmentById(Long id);
 }

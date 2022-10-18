@@ -1,5 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,15 +26,18 @@ public class Leave implements Serializable {
      * 申请时间
      */
     @ApiModelProperty("申请时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date submitTime;
     /**
      * 请假开始时间
      */
     @ApiModelProperty("请假开始时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private java.sql.Date startTime;
     /**
      * 请假结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty("请假结束时间")
     private java.sql.Date endTime;
     /**
@@ -50,6 +54,7 @@ public class Leave implements Serializable {
      * 审批时间
      */
     @ApiModelProperty("审批时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date examineTime;
     /**
      * 审批状态

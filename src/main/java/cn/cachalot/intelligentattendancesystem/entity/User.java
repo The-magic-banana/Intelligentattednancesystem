@@ -1,5 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -50,6 +51,7 @@ public class User implements Serializable {
      * 出生日期
      */
     @ApiModelProperty("出生日期")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date birthday;
     /**
      * 电话
@@ -78,5 +80,5 @@ public class User implements Serializable {
     private String describe;
 
     @ApiModelProperty("是否被禁用(0:未禁用,1:已禁用)")
-    private Boolean isDisable;
+    private Integer isDisable;
 }

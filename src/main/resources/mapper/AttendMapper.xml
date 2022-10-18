@@ -21,6 +21,7 @@
                 `status` = 5,
             </if>
         </set>
+        where `day` =#{date}
     </update>
     <update id="checkSecondSign">
         update user_attend
@@ -29,7 +30,7 @@
                 `status` = 4,
             </if>
         </set>
-        where `attend_id` in (select `attend_id` from attend where second_time = null )
+        where `day` =#{date} and `attend_id` in (select `attend_id` from attend where second_time = null )
     </update>
     <update id="checkThirdSign">
         update user_attend
@@ -38,7 +39,7 @@
                 `status` = 5,
             </if>
         </set>
-        where `attend_id` in (select `attend_id` from attend where third_time = null )
+        where `day` =#{date} and `attend_id` in (select `attend_id` from attend where third_time = null )
     </update>
     <update id="checkFourthSign">
         update user_attend
@@ -47,16 +48,35 @@
                 `status` = 4,
             </if>
         </set>
-        where `attend_id` in (select `attend_id` from attend where fourth_time = null )
+        where `day` =#{date}
+        and `attend_id` in (select `attend_id` from attend where fourth_time = null )
         and `attend_id` in (select `attend_id` from attend where third_time = null )
     </update>
 
-    <select id="getSingleAttend" resultType="cn.cachalot.intelligentattendancesystem.entity.UserAttend">
+    <select id="getAttendByUserId" resultType="cn.cachalot.intelligentattendancesystem.entity.UserAttend">
         select *
         from (select *
               from `user_attend`
               where `user_id` = #{userId}
               order by day desc
               limit ${days}) as t
+    </select>
+    <select id="getAllAttendByDate" resultType="cn.cachalot.intelligentattendancesystem.entity.UserAttend">
+        select *
+        from `user_attend`
+        where `day` = #{date}
+    </select>
+    <select id="getAttendByDateAndDepartment" resultType="cn.cachalot.intelligentattendancesystem.entity.UserAttend">
+        select *
+        from `user_attend`
+        where `day` = #{date}
+          and `user_id` in (select `user_id` from `user` where `department` = #{department})
+    </select>
+    <select id="getOneAttendByDateAndUserId"
+            resultType="cn.cachalot.intelligentattendancesystem.entity.UserAttend">
+        select *
+        from `user_attend`
+        where `day` = #{date}
+          and `user_id` = #{id}
     </select>
 </mapper>

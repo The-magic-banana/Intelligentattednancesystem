@@ -22,5 +22,11 @@ public interface AttendMapper {
 
     void checkFourthSign(@Param("date") Date date);
 
-    List<UserAttend> getSingleAttend(@Param("userId") Long userId, @Param("days") Integer days);
+    List<UserAttend> getAttendByUserId(@Param("userId") Long userId, @Param("days") Integer days);
+
+    List<UserAttend> getAllAttendByDate(@Param("date") Date date);
+
+    List<UserAttend> getAttendByDateAndDepartment(@Param("department") String department, @Param("date") Date date);
+
+    UserAttend getOneAttendByDateAndUserId(@Param("id") Long id, @Param("date") Date date);
 }

@@ -6,9 +6,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@ApiModel(description = "获取个人考勤信息入参")
+@ApiModel(description = "根据员工获取考勤信息列表入参")
 @Data
-public class GetSingleAttendPara implements Serializable {
+public class GetAttendByUserPara implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "查询天数,0表示查询所有", required = true)

@@ -9,6 +9,7 @@ import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.mapper.UserMapper;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -83,9 +84,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getManagedUserInfo(Long userId) {
+    public List<User> getManagedUserInfo(Integer pageNum, Integer pageSize, Long userId) {
         User user = userMapper.selectOneByUserId(userId);
         Integer level = user.getLevel();
+        PageHelper.startPage(pageNum, pageSize);
         if (level.equals(0)) {
             return userMapper.getAllUser();
         } else if (level.equals(1)) {
@@ -131,9 +133,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getManagedUserInfoByUserNameOrId(Long id, String userNameOrId) {
+    public List<User> getManagedUserInfoByUserNameOrId(Integer pageNum, Integer pageSize, Long id, String userNameOrId) {
         User user = userMapper.selectOneByUserId(id);
         Integer level = user.getLevel();
+        PageHelper.startPage(pageNum, pageSize);
         if (level.equals(0)) {
             return userMapper.getAllUserByUserNameOrId(userNameOrId);
         } else if (level.equals(1)) {
@@ -143,5 +146,15 @@ public class UserServiceImpl implements UserService {
             list.add(user);
             return list;
         }
+    }
+
+    @Override
+    public Integer getUserLevel(Long id) {
+        return userMapper.selectLevelByUserId(id);
+    }
+
+    @Override
+    public String getDepartmentById(Long id) {
+        return userMapper.selectDepartmentByUserId(id);
     }
 }
