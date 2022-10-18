@@ -1,5 +1,8 @@
 package cn.cachalot.intelligentattendancesystem.service.impl;
 
+import cn.cachalot.intelligentattendancesystem.common.BaseContext;
+import cn.cachalot.intelligentattendancesystem.common.R;
+import cn.cachalot.intelligentattendancesystem.entity.Attend;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import cn.cachalot.intelligentattendancesystem.mapper.AttendMapper;
@@ -89,6 +92,18 @@ public class AttendServiceImpl implements AttendService {
             List<UserAttend> list = new ArrayList<>();
             list.add(attendMapper.getOneAttendByDateAndUserId(id, date));
             return list;
+        }
+    }
+
+    @Override
+    public R<Attend> getAttendDetail(Long attendId) {
+        List<Long> managedUserId = userService.getManagedUserId(BaseContext.getId());
+        Long userId = attendMapper.getUserIdByAttendId(attendId);
+        if (managedUserId.contains(userId)) {
+            Attend attend = attendMapper.getAttendDetail(attendId);
+            return R.success(attend);
+        } else {
+            return R.error("无权限查看");
         }
     }
 }

@@ -1,5 +1,7 @@
 package cn.cachalot.intelligentattendancesystem.service;
 
+import cn.cachalot.intelligentattendancesystem.common.R;
+import cn.cachalot.intelligentattendancesystem.entity.Attend;
 import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 
 import java.sql.Date;
@@ -19,4 +21,6 @@ public interface AttendService {
     List<UserAttend> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days);
 
     List<UserAttend> getAttendByDate(Integer pageNum, Integer pageSize, Long id, Date date);
+
+    R<Attend> getAttendDetail(Long attendId);
 }

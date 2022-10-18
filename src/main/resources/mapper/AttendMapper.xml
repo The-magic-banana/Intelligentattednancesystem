@@ -79,4 +79,14 @@
         where `day` = #{date}
           and `user_id` = #{id}
     </select>
+    <select id="getAttendDetail" resultType="cn.cachalot.intelligentattendancesystem.entity.Attend">
+        select *
+        from `attend`
+        where `attend_id` = #{attendId}
+    </select>
+    <select id="getUserIdByAttendId" resultType="java.lang.Long">
+        select `user_id`
+        from user_attend
+        where attend_id = #{attendId}
+    </select>
 </mapper>

@@ -4,9 +4,9 @@ import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
 import cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendByDatePara;
 import cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendByUserPara;
+import cn.cachalot.intelligentattendancesystem.entity.Attend;
 import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import cn.cachalot.intelligentattendancesystem.service.AttendService;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,5 +44,11 @@ public class AttendController {
         return R.success(pageInfo);
     }
 
+    @ApiOperation("获取详细考勤信息")
+    @PostMapping("/getAttendDetail")
+    @ApiImplicitParam(name = "attendId", value = "考勤Id", required = true)
+    public R<Attend> getAttendDetail(@RequestParam Long attendId) {
+        return attendService.getAttendDetail(attendId);
+    }
 
 }

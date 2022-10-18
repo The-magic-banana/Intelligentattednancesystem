@@ -1,5 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.mapper;
 
+import cn.cachalot.intelligentattendancesystem.entity.Attend;
 import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -29,4 +30,8 @@ public interface AttendMapper {
     List<UserAttend> getAttendByDateAndDepartment(@Param("department") String department, @Param("date") Date date);
 
     UserAttend getOneAttendByDateAndUserId(@Param("id") Long id, @Param("date") Date date);
+
+    Attend getAttendDetail(@Param("attendId") Long attendId);
+
+    Long getUserIdByAttendId(@Param("attendId") Long attendId);
 }

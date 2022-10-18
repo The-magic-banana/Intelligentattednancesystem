@@ -14,6 +14,6 @@ public class GetAttendByDatePara implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @ApiModelProperty(value = "查询的日期", required = true)
+    @ApiModelProperty(value = "查询的日期格式yyyy-MM-dd", required = true)
     private Date date;
 }
