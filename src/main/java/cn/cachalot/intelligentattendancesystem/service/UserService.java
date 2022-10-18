@@ -22,4 +22,6 @@ public interface UserService {
     List<Long> getManagedUserId(Long userId);
 
     R<LoginRes> login(LoginPara loginPara);
+
+    List<User> getManagedUserInfoByUserNameOrId(Long id, String userNameOrId);
 }

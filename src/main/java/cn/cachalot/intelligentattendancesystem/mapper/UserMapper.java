@@ -28,4 +28,8 @@ public interface UserMapper {
     String selectDepartmentByUserId(@Param("userId") Long userId);
 
     List<Long> getAllUserId();
+
+    List<User> getAllUserByUserNameOrId(@Param("userNameOrId") String userNameOrId);
+
+    List<User> getUserByUserNameOrIdInDepartment(@Param("department") String department, @Param("userNameOrId") String userNameOrId);
 }

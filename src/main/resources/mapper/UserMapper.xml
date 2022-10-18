@@ -98,4 +98,18 @@
         from user
         where `department` = #{department}
     </select>
+    <select id="getAllUserByUserNameOrId" resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+        where `user_name` like concat('%', #{userNameOrId}, '%')
+           or `user_id` like concat('%', #{userNameOrId}, '%')
+    </select>
+    <select id="getUserByUserNameOrIdInDepartment"
+            resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+        where `department` = #{department}
+          and (`user_name` like concat('%', #{userNameOrId}, '%')
+            or `user_id` like concat('%', #{userNameOrId}, '%'))
+    </select>
 </mapper>

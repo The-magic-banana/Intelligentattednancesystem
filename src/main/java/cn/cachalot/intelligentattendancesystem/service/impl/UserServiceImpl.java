@@ -25,6 +25,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;
 
+    @Resource
+    UserService userService;
+
     @Override
     public User selectOneByUsername(String userName) {
         return userMapper.selectOneByUsername(userName);
@@ -125,5 +128,20 @@ public class UserServiceImpl implements UserService {
         loginRes.setUser(user);
         loginRes.setToken(token);
         return R.success(loginRes);
+    }
+
+    @Override
+    public List<User> getManagedUserInfoByUserNameOrId(Long id, String userNameOrId) {
+        User user = userMapper.selectOneByUserId(id);
+        Integer level = user.getLevel();
+        if (level.equals(0)) {
+            return userMapper.getAllUserByUserNameOrId(userNameOrId);
+        } else if (level.equals(1)) {
+            return userMapper.getUserByUserNameOrIdInDepartment(user.getDepartment(), userNameOrId);
+        } else {
+            List<User> list = new ArrayList<>();
+            list.add(user);
+            return list;
+        }
     }
 }
