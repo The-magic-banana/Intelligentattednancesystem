@@ -3,6 +3,7 @@ package cn.cachalot.intelligentattendancesystem.interceptor;
 import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.TokenUtil;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

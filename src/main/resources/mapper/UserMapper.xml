@@ -117,4 +117,9 @@
         from user
         where `user_id` = #{id}
     </select>
+    <select id="getUserByPhone" resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+        where `phone` = #{phone}
+    </select>
 </mapper>

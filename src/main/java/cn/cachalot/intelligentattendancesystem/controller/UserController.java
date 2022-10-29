@@ -1,12 +1,14 @@
 package cn.cachalot.intelligentattendancesystem.controller;
 
-import cn.cachalot.intelligentattendancesystem.common.BaseContext;
+
 import cn.cachalot.intelligentattendancesystem.common.R;
+import cn.cachalot.intelligentattendancesystem.common.SMSUtils;
+import cn.cachalot.intelligentattendancesystem.common.TokenUtil;
 import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
 import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginPara;
 import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginRes;
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Slf4j
 @RestController
@@ -91,5 +96,68 @@ public class UserController {
         List<User> list = userService.getManagedUserInfoByUserNameOrId(pageNum, pageSize, userNameOrId);
         PageInfo<User> pageInfo = new PageInfo<User>(list);
         return R.success(pageInfo);
+    }
+
+    @ApiOperation("发送短信验证码")
+    @PostMapping("/getSMS")
+    @ApiImplicitParam(name = "phone", value = "手机号码", required = true)
+    public R<String> sendMsg(String phone, HttpSession session) {
+        if (phone == null || phone.equals("")) {
+            return R.error("手机号码不能为空!");
+        }
+        User user = userService.getUserByPhone(phone);
+        if (user == null) {
+            return R.error("该手机号码未注册!");
+        }
+        Integer codeNum = new Random().nextInt(999999);//生成随机数，最大为999999
+        if (codeNum < 100000) {
+            codeNum = codeNum + 100000;//保证随机数为6位数字
+        }
+        String code = codeNum.toString();
+        log.info("手机号为：" + phone);
+        log.info("验证码为：" + code);
+        SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", phone, code);
+        session.setAttribute(phone, code);
+        return R.success("短信发送成功");
+    }
+
+    @ApiOperation("发送短信验证码(测试用,直接返回验证码)")
+    @PostMapping("/getSMStest")
+    @ApiImplicitParam(name = "phone", value = "手机号码", required = true)
+    public R<String> sendMsgtest(String phone, HttpSession session) {
+        if (phone == null || phone.equals("")) {
+            return R.error("手机号码不能为空!");
+        }
+        User user = userService.getUserByPhone(phone);
+        if (user == null) {
+            return R.error("该手机号码未注册!");
+        }
+        Integer codeNum = new Random().nextInt(999999);//生成随机数，最大为999999
+        if (codeNum < 100000) {
+            codeNum = codeNum + 100000;//保证随机数为6位数字
+        }
+        String code = codeNum.toString();
+        log.info("手机号为：" + phone);
+        log.info("验证码为：" + code);
+//        SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", phone, code);
+        session.setAttribute(phone, code);
+        return R.success(code);
+    }
+
+    @ApiOperation("手机验证码登陆")
+    @PostMapping("/SMSlogin")
+    @ApiImplicitParams({@ApiImplicitParam(name = "phone", value = "手机号码", required = true), @ApiImplicitParam(name =
+            "code", value = "验证码", required = true)})
+    public R<LoginRes> SMSlogin(String phone, String code, HttpSession session) {
+        String codeInSession = session.getAttribute(phone).toString();
+        if (codeInSession != null && codeInSession.equals(code)) {
+            User user = userService.getUserByPhone(phone);
+            String token = TokenUtil.creatToken(user);
+            LoginRes loginRes = new LoginRes();
+            loginRes.setUser(user);
+            loginRes.setToken(token);
+            return R.success(loginRes);
+        }
+        return R.error("登录失败!");
     }
 }

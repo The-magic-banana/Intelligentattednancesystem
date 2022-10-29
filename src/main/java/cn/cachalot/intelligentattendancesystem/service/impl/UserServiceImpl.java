@@ -180,4 +180,9 @@ public class UserServiceImpl implements UserService {
     public String getDepartmentById(Long id) {
         return userMapper.selectDepartmentByUserId(id);
     }
+
+    @Override
+    public User getUserByPhone(String phone) {
+        return userMapper.getUserByPhone(phone);
+    }
 }

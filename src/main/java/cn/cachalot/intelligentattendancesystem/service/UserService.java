@@ -32,4 +32,6 @@ public interface UserService {
     Integer getUserLevel(Long id);
 
     String getDepartmentById(Long id);
+
+    User getUserByPhone(String phone);
 }

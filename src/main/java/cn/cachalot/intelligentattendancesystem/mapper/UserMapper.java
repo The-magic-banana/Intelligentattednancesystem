@@ -35,4 +35,6 @@ public interface UserMapper {
                                                  @Param("userNameOrId") String userNameOrId);
 
     User getUserById(@Param("id") Long id);
+
+    User getUserByPhone(@Param("phone") String phone);
 }
