@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 public class SMSUtils {
     public static String sendMessage(String signName, String templateCode, String phoneNumbers,String code) {
         StaticCredentialProvider provider = StaticCredentialProvider.create(Credential.builder().accessKeyId(
-                "LTAI5tPYZkrsRUdnoKgfGzTM").accessKeySecret("1UJpM5HdyRlR4FPgLG0pDqtfxGZbuU").build());
+                "123456789").accessKeySecret("123456789").build());
 
         // Configure the Client
         AsyncClient client = AsyncClient.builder().region("cn" + "-zhangjiakou") // Region ID
