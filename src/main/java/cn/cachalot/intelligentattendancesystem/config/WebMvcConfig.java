@@ -1,12 +1,14 @@
 package cn.cachalot.intelligentattendancesystem.config;
 
 import cn.cachalot.intelligentattendancesystem.common.JacksonObjectMapper;
+import cn.cachalot.intelligentattendancesystem.interceptor.LoginInterceptor;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -58,6 +60,19 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("智能考勤系统").description("智能考勤系统").termsOfServiceUrl("http://8.142.66.212/").version("1.0").build();
+    }
+
+    @Bean
+    public LoginInterceptor getLoginInterceptor() {
+        return new LoginInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // addPathPattern 添加拦截规则 /** 拦截所有包括静态资源
+        // excludePathPattern 排除拦截规则 所以我们需要放开静态资源的拦截
+        registry.addInterceptor(getLoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login",
+                "/user" + "/login", "/doc.html", "/webjars/**", "/swagger-resources", "/v2/api-docs");
     }
 
 }

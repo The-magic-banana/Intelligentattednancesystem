@@ -31,5 +31,8 @@ public interface UserMapper {
 
     List<User> getAllUserByUserNameOrId(@Param("userNameOrId") String userNameOrId);
 
-    List<User> getUserByUserNameOrIdInDepartment(@Param("department") String department, @Param("userNameOrId") String userNameOrId);
+    List<User> getUserByUserNameOrIdInDepartment(@Param("department") String department,
+                                                 @Param("userNameOrId") String userNameOrId);
+
+    User getUserById(@Param("id") Long id);
 }

@@ -9,6 +9,10 @@ import cn.cachalot.intelligentattendancesystem.entity.User;
 import java.util.List;
 
 public interface UserService {
+    User getUserById(Long id);
+
+    User getLocalUserById(Long id);
+
     User selectOneByUsername(String userName);
 
     R<String> addEmployee(User user);
@@ -17,13 +21,13 @@ public interface UserService {
 
     R<String> updateOne(User user);
 
-    List<User> getManagedUserInfo(Integer pageNum, Integer pageSize, Long userId);
+    List<User> getManagedUserInfo(Integer pageNum, Integer pageSize);
 
-    List<Long> getManagedUserId(Long userId);
+    List<Long> getManagedUserId();
 
     R<LoginRes> login(LoginPara loginPara);
 
-    List<User> getManagedUserInfoByUserNameOrId(Integer pageNum, Integer pageSize, Long id, String userNameOrId);
+    List<User> getManagedUserInfoByUserNameOrId(Integer pageNum, Integer pageSize, String userNameOrId);
 
     Integer getUserLevel(Long id);
 

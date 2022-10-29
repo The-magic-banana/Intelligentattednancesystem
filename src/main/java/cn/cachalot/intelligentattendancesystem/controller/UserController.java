@@ -72,18 +72,23 @@ public class UserController {
      */
     @ApiOperation("查询用户信息")
     @PostMapping("/getManagedUserInfo")
-    @ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "第几页", required = true), @ApiImplicitParam(name = "pageSize", value = "每一页有多少数据", required = true)})
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "第几页", required = true), @ApiImplicitParam(name =
+            "pageSize", value = "每一页有多少数据", required = true)})
     public R<PageInfo<User>> getUserInfo(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
-        List<User> list = userService.getManagedUserInfo(pageNum, pageSize, BaseContext.getId());
+        List<User> list = userService.getManagedUserInfo(pageNum, pageSize);
         PageInfo<User> pageInfo = new PageInfo<User>(list);
         return R.success(pageInfo);
     }
 
     @ApiOperation("模糊查询用户名或Id")
     @PostMapping("/getManagedUserInfoByUserNameOrId")
-    @ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "第几页", required = true), @ApiImplicitParam(name = "pageSize", value = "每一页有多少数据", required = true), @ApiImplicitParam(name = "userNameOrId", value = "用户名或Id", required = true)})
-    public R<PageInfo<User>> getManagedUserInfoByUserNameOrId(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam String userNameOrId) {
-        List<User> list = userService.getManagedUserInfoByUserNameOrId(pageNum,pageSize,BaseContext.getId(), userNameOrId);
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "第几页", required = true), @ApiImplicitParam(name =
+            "pageSize", value = "每一页有多少数据", required = true), @ApiImplicitParam(name = "userNameOrId", value =
+            "用户名或Id", required = true)})
+    public R<PageInfo<User>> getManagedUserInfoByUserNameOrId(@RequestParam Integer pageNum,
+                                                              @RequestParam Integer pageSize,
+                                                              @RequestParam String userNameOrId) {
+        List<User> list = userService.getManagedUserInfoByUserNameOrId(pageNum, pageSize, userNameOrId);
         PageInfo<User> pageInfo = new PageInfo<User>(list);
         return R.success(pageInfo);
     }

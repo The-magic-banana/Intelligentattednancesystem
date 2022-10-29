@@ -2,15 +2,16 @@ package cn.cachalot.intelligentattendancesystem.service.impl;
 
 import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
+import cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendRes;
 import cn.cachalot.intelligentattendancesystem.entity.Attend;
 import cn.cachalot.intelligentattendancesystem.entity.User;
-import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import cn.cachalot.intelligentattendancesystem.mapper.AttendMapper;
 import cn.cachalot.intelligentattendancesystem.service.AttendService;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -75,29 +77,64 @@ public class AttendServiceImpl implements AttendService {
     }
 
     @Override
-    public List<UserAttend> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days) {
+    public List<GetAttendRes> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days) {
         PageHelper.startPage(pageNum, pageSize);
-        return attendMapper.getAttendByUserId(userId, days);
+        List<GetAttendRes> list = attendMapper.getAttendByUserId(userId, days);
+        list = list.stream().map((item) -> {
+            GetAttendRes res = new GetAttendRes();
+            BeanUtils.copyProperties(item, res);
+            User user = userService.getUserById(item.getUserId());
+            if (user != null) {
+                res.setUser(user);
+            }
+            return res;
+        }).collect(Collectors.toList());
+        return list;
     }
 
     @Override
-    public List<UserAttend> getAttendByDate(Integer pageNum, Integer pageSize, Long id, Date date) {
-        Integer level = userService.getUserLevel(id);
+    public List<GetAttendRes> getAttendByDate(Integer pageNum, Integer pageSize, Date date) {
+        Integer level = BaseContext.getUser().getLevel();
         PageHelper.startPage(pageNum, pageSize);
         if (level.equals(0)) {
-            return attendMapper.getAllAttendByDate(date);
+            List<GetAttendRes> list = attendMapper.getAllAttendByDate(date);
+            list = list.stream().map((item) -> {
+                GetAttendRes res = new GetAttendRes();
+                BeanUtils.copyProperties(item, res);
+                User user = userService.getUserById(item.getUserId());
+                if (user != null) {
+                    res.setUser(user);
+                }
+                return res;
+            }).collect(Collectors.toList());
+            return list;
+
         } else if (level.equals(1)) {
-            return attendMapper.getAttendByDateAndDepartment(userService.getDepartmentById(id), date);
+            List<GetAttendRes> list = attendMapper.getAttendByDateAndDepartment(BaseContext.getUser().getDepartment()
+                    , date);
+            list = list.stream().map((item) -> {
+                GetAttendRes res = new GetAttendRes();
+                BeanUtils.copyProperties(item, res);
+                User user = userService.getUserById(item.getUserId());
+                if (user != null) {
+                    res.setUser(user);
+                }
+                return res;
+            }).collect(Collectors.toList());
+            return list;
         } else {
-            List<UserAttend> list = new ArrayList<>();
-            list.add(attendMapper.getOneAttendByDateAndUserId(id, date));
+            List<GetAttendRes> list = new ArrayList<>();
+            GetAttendRes getAttendRes = attendMapper.getOneAttendByDateAndUserId(BaseContext.getUser().getUserId(),
+                    date);
+            getAttendRes.setUser(BaseContext.getUser());
+            list.add(getAttendRes);
             return list;
         }
     }
 
     @Override
     public R<Attend> getAttendDetail(Long attendId) {
-        List<Long> managedUserId = userService.getManagedUserId(BaseContext.getId());
+        List<Long> managedUserId = userService.getManagedUserId();
         Long userId = attendMapper.getUserIdByAttendId(attendId);
         if (managedUserId.contains(userId)) {
             Attend attend = attendMapper.getAttendDetail(attendId);

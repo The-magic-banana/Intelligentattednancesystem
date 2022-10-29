@@ -30,6 +30,28 @@ public class UserServiceImpl implements UserService {
     UserService userService;
 
     @Override
+    public User getUserById(Long id) {
+        User user = userMapper.getUserById(id);
+        Integer level = BaseContext.getUser().getLevel();
+        String department = BaseContext.getUser().getDepartment();
+        if (Objects.equals(id, BaseContext.getUser().getUserId())) {
+            return user;
+        }
+        if (level.equals(1) && Objects.equals(department, user.getDepartment())) {
+            return user;
+        }
+        if (level.equals(0)) {
+            return user;
+        }
+        return null;
+    }
+
+    @Override
+    public User getLocalUserById(Long id) {
+        return userMapper.getUserById(id);
+    }
+
+    @Override
     public User selectOneByUsername(String userName) {
         return userMapper.selectOneByUsername(userName);
     }
@@ -39,8 +61,8 @@ public class UserServiceImpl implements UserService {
         if (userMapper.selectOneByUsername(user.getUserName()) != null) {
             return R.error("用户名已存在!");
         }
-        Integer level = userMapper.selectLevelByUserId(BaseContext.getId());
-        String department = userMapper.selectDepartmentByUserId(BaseContext.getId());
+        Integer level = BaseContext.getUser().getLevel();
+        String department = BaseContext.getUser().getDepartment();
         //level数字越小权限越大
         if (user.getLevel() < level) {
             return R.error("不能赋予更高权限!");
@@ -64,15 +86,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R<String> updateOne(User user) {
-        if (userMapper.selectOneByUsername(user.getUserName()) != null && !Objects.equals(user.getUserId(), BaseContext.getId())) {
+        if (userMapper.selectOneByUsername(user.getUserName()) != null && !Objects.equals(user.getUserId(),
+                BaseContext.getUser().getUserId())) {
             return R.error("用户名已存在!");
         }
-        if (Objects.equals(user.getUserId(), BaseContext.getId())) {
+        if (Objects.equals(user.getUserId(), BaseContext.getUser().getUserId())) {
             userMapper.updateOne(user);
             return R.success("修改成功");
         }
-        Integer level = userMapper.selectLevelByUserId(BaseContext.getId());
-        String department = userMapper.selectDepartmentByUserId(BaseContext.getId());
+        Integer level = BaseContext.getUser().getLevel();
+        String department = BaseContext.getUser().getDepartment();
         if (level.equals(1) && !Objects.equals(department, user.getDepartment())) {
             return R.error("您没有权限修改该部门的用户信息!");
         }
@@ -84,8 +107,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getManagedUserInfo(Integer pageNum, Integer pageSize, Long userId) {
-        User user = userMapper.selectOneByUserId(userId);
+    public List<User> getManagedUserInfo(Integer pageNum, Integer pageSize) {
+        User user = BaseContext.getUser();
         Integer level = user.getLevel();
         PageHelper.startPage(pageNum, pageSize);
         if (level.equals(0)) {
@@ -100,16 +123,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Long> getManagedUserId(Long userId) {
-        User user = userMapper.selectOneByUserId(userId);
-        Integer level = user.getLevel();
+    public List<Long> getManagedUserId() {
+        Integer level = BaseContext.getUser().getLevel();
         if (level.equals(0)) {
             return userMapper.getAllUserId();
         } else if (level.equals(1)) {
-            return userMapper.getUserIdByDepartment(user.getDepartment());
+            return userMapper.getUserIdByDepartment(BaseContext.getUser().getDepartment());
         } else {
             List<Long> list = new ArrayList<>();
-            list.add(userId);
+            list.add(BaseContext.getUser().getUserId());
             return list;
         }
     }
@@ -133,8 +155,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getManagedUserInfoByUserNameOrId(Integer pageNum, Integer pageSize, Long id, String userNameOrId) {
-        User user = userMapper.selectOneByUserId(id);
+    public List<User> getManagedUserInfoByUserNameOrId(Integer pageNum, Integer pageSize,
+                                                       String userNameOrId) {
+        User user = BaseContext.getUser();
         Integer level = user.getLevel();
         PageHelper.startPage(pageNum, pageSize);
         if (level.equals(0)) {

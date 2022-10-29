@@ -1,5 +1,6 @@
 package cn.cachalot.intelligentattendancesystem.common;
 
+import cn.cachalot.intelligentattendancesystem.entity.User;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -7,19 +8,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class BaseContext {
-    private static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
+    private static ThreadLocal<User> threadLocal = new ThreadLocal<>();
 
-    public static void setId(Long id) {
-        log.info("存储当前ID:{}", id.toString());
-        threadLocal.set(id);
+    public static void setUser(User user) {
+        log.info("存储当前User:{}", user.toString());
+        threadLocal.set(user);
     }
 
-    public static Long getId() {
-        log.info("放出当前ID:{}", threadLocal.get().toString());
+    public static User getUser() {
+        log.info("放出当前User:{}", threadLocal.get().toString());
         return threadLocal.get();
     }
 
-    public static void removeId() {
-        threadLocal.remove();
-    }
+
 }

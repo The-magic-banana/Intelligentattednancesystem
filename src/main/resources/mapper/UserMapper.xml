@@ -112,4 +112,9 @@
           and (`user_name` like concat('%', #{userNameOrId}, '%')
             or `user_id` like concat('%', #{userNameOrId}, '%'))
     </select>
+    <select id="getUserById" resultType="cn.cachalot.intelligentattendancesystem.entity.User">
+        select *
+        from user
+        where `user_id` = #{id}
+    </select>
 </mapper>
