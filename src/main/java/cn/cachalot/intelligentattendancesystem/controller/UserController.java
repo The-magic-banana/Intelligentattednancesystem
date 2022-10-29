@@ -70,7 +70,7 @@ public class UserController {
      * @param pageSize 每页多少条
      * @return
      */
-    @ApiOperation("分页查询有权限管理的用户信息")
+    @ApiOperation("查询用户信息")
     @PostMapping("/getManagedUserInfo")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "第几页", required = true), @ApiImplicitParam(name = "pageSize", value = "每一页有多少数据", required = true)})
     public R<PageInfo<User>> getUserInfo(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
