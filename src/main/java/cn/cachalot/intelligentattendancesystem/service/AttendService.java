@@ -5,11 +5,15 @@ import cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendRes;
 import cn.cachalot.intelligentattendancesystem.entity.Attend;
 import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AttendService {
     void creatAttend();
+
+    //type==1表示签到，type==2表示签退
+    boolean sign(Long userId, Integer type);
 
     void checkFirstSign();
 
@@ -21,7 +25,9 @@ public interface AttendService {
 
     List<GetAttendRes> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days);
 
-    List<GetAttendRes> getAttendByDate(Integer pageNum, Integer pageSize, Date date);
+    List<GetAttendRes> getAttendByDate(Integer pageNum, Integer pageSize, LocalDate date);
+
+    UserAttend getAttendByUserIdAndDate(Long userId, LocalDate date);
 
     R<Attend> getAttendDetail(Long attendId);
 }

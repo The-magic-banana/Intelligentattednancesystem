@@ -1,12 +1,12 @@
 package cn.cachalot.intelligentattendancesystem.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+//import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @ApiModel(description = "用户考勤简略信息")
@@ -15,9 +15,9 @@ public class UserAttend implements Serializable {
     /**
      * 记录ID
      */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+//    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty("记录ID")
-    private Date day;
+    private LocalDate day;
     /**
      * 考勤详细信息Id
      */

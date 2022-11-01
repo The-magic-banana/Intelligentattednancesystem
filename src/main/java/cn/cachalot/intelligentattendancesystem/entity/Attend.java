@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @ApiModel(description = "考勤记录详细信息")
@@ -21,10 +21,10 @@ public class Attend implements Serializable {
      * 第一次考勤时间
      */
     @ApiModelProperty("第一次考勤时间")
-    private Date firstTime;
-    private Date secondTime;
-    private Date thirdTime;
-    private Date fourthTime;
+    private LocalDateTime firstTime;
+    private LocalDateTime secondTime;
+    private LocalDateTime thirdTime;
+    private LocalDateTime fourthTime;
     /**
      * 第一次考勤地点
      */
@@ -56,8 +56,8 @@ public class Attend implements Serializable {
      * 手动更新时间
      */
     @ApiModelProperty("手动更新时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateTime;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updateTime;
     /**
      * 手动更新操作人
      */

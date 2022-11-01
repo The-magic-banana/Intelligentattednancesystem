@@ -16,7 +16,6 @@ public class BaseContext {
     }
 
     public static User getUser() {
-        log.info("放出当前User:{}", threadLocal.get().toString());
         return threadLocal.get();
     }
 

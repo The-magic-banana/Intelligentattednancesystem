@@ -53,6 +53,14 @@
         and `attend_id` in (select `attend_id` from attend where third_time = null )
     </update>
 
+    <update id="sign">
+        update user_attend
+        <set>
+            `status` = #{status}
+        </set>>
+        where `day`=#{date} and `user_id` = #{userId}
+    </update>
+
     <select id="getAttendByUserId" resultType="cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendRes">
         select *
         from (select *
@@ -66,7 +74,8 @@
         from `user_attend`
         where `day` = #{date}
     </select>
-    <select id="getAttendByDateAndDepartment" resultType="cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendRes">
+    <select id="getAttendByDateAndDepartment"
+            resultType="cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendRes">
         select *
         from `user_attend`
         where `day` = #{date}

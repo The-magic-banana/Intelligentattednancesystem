@@ -5,6 +5,7 @@ import cn.cachalot.intelligentattendancesystem.common.R;
 import cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendRes;
 import cn.cachalot.intelligentattendancesystem.entity.Attend;
 import cn.cachalot.intelligentattendancesystem.entity.User;
+import cn.cachalot.intelligentattendancesystem.entity.UserAttend;
 import cn.cachalot.intelligentattendancesystem.mapper.AttendMapper;
 import cn.cachalot.intelligentattendancesystem.service.AttendService;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
@@ -13,9 +14,11 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +32,13 @@ public class AttendServiceImpl implements AttendService {
     UserService userService;
 
     @Resource
+    AttendService attendService;
+
+    @Resource
     AttendMapper attendMapper;
 
     @Override
-
+    @Transactional//事务
     public void creatAttend() {
         List<Long> userIds = userService.getAllUserId();
         List<Long> attendIds = new ArrayList<>();
@@ -46,33 +52,55 @@ public class AttendServiceImpl implements AttendService {
             attendIds.add(tempId);
             mapList.add(map);
         }
-        Date date = new Date(System.currentTimeMillis());
+//        Date date = new Date(System.currentTimeMillis());
+        LocalDate localDate = LocalDate.now();
         attendMapper.creatAttend(attendIds);
-        attendMapper.creatUserAttend(date, mapList);
+//        attendMapper.creatUserAttend(date, mapList);
+        attendMapper.creatUserAttend(localDate, mapList);
 
     }
 
     @Override
+    public boolean sign(Long userId, Integer type) {
+//        Date date = new Date(System.currentTimeMillis());
+//        UserAttend userAttend = attendService.getAttendByUserIdAndDate(userId, date);
+        LocalTime localTime = LocalTime.now();
+        if (type == 1) {
+            LocalTime firstSignInTimeStart = LocalTime.of(8, 0);
+            LocalTime firstSignInTimeEnd = LocalTime.of(8, 30);
+            LocalTime secondSignInTimeStart = LocalTime.of(13, 30);
+            LocalTime secondSignInTimeEnd = LocalTime.of(14, 0);
+
+        } else {
+            LocalTime firstSignOutTimeStart = LocalTime.of(11, 30);
+            LocalTime firstSignOutTimeEnd = LocalTime.of(12, 30);
+            LocalTime secondSignOutTimeStart = LocalTime.of(18, 0);
+            LocalTime secondSignOutTimeEnd = LocalTime.of(19, 0);
+        }
+        return true;
+    }
+
+    @Override
     public void checkFirstSign() {
-        Date date = new Date(System.currentTimeMillis());
+        LocalDate date = LocalDate.now();
         attendMapper.checkFirstSign(date);
     }
 
     @Override
     public void checkSecondSign() {
-        Date date = new Date(System.currentTimeMillis());
+        LocalDate date = LocalDate.now();
         attendMapper.checkSecondSign(date);
     }
 
     @Override
     public void checkThirdSign() {
-        Date date = new Date(System.currentTimeMillis());
+        LocalDate date = LocalDate.now();
         attendMapper.checkThirdSign(date);
     }
 
     @Override
     public void checkFourthSign() {
-        Date date = new Date(System.currentTimeMillis());
+        LocalDate date = LocalDate.now();
         attendMapper.checkFourthSign(date);
     }
 
@@ -93,7 +121,7 @@ public class AttendServiceImpl implements AttendService {
     }
 
     @Override
-    public List<GetAttendRes> getAttendByDate(Integer pageNum, Integer pageSize, Date date) {
+    public List<GetAttendRes> getAttendByDate(Integer pageNum, Integer pageSize, LocalDate date) {
         Integer level = BaseContext.getUser().getLevel();
         PageHelper.startPage(pageNum, pageSize);
         if (level.equals(0)) {
@@ -130,6 +158,11 @@ public class AttendServiceImpl implements AttendService {
             list.add(getAttendRes);
             return list;
         }
+    }
+
+    @Override
+    public UserAttend getAttendByUserIdAndDate(Long userId, LocalDate date) {
+        return attendMapper.getOneAttendByDateAndUserId(userId, date);
     }
 
     @Override

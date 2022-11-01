@@ -8,7 +8,6 @@ import cn.cachalot.intelligentattendancesystem.entity.User;
 import cn.cachalot.intelligentattendancesystem.service.UserService;
 import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginPara;
 import cn.cachalot.intelligentattendancesystem.dto.userDto.LoginRes;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @Slf4j
