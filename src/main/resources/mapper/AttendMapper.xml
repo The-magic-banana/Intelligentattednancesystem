@@ -16,49 +16,85 @@
     </insert>
     <update id="checkFirstSign">
         update user_attend
-        <set>
-            <if test="status == 6">
-                `status` = 5,
-            </if>
-        </set>
+        set `status` = if(`status` = 6, 4, `status`)
+        <!--        <set>-->
+        <!--            <if test="status == 6">-->
+        <!--                `status` = 4,-->
+        <!--            </if>-->
+        <!--        </set>-->
         where `day` =#{date}
     </update>
-    <update id="checkSecondSign">
-        update user_attend
-        <set>
-            <if test="status == 5">
-                `status` = 4,
-            </if>
-        </set>
-        where `day` =#{date} and `attend_id` in (select `attend_id` from attend where second_time = null )
-    </update>
+    <!--    <update id="checkSecondSign">-->
+    <!--        update user_attend-->
+    <!--        <set>-->
+    <!--            <if test="status != 2 and status != 3">-->
+    <!--                `status` = 4,-->
+    <!--            </if>-->
+    <!--        </set>-->
+    <!--        where `day` =#{date} and `attend_id` in (select `attend_id` from attend where second_time = null )-->
+    <!--    </update>-->
     <update id="checkThirdSign">
         update user_attend
-        <set>
-            <if test="status == 1">
-                `status` = 5,
-            </if>
-        </set>
+        set `status` = if(`status` != 2 and `status` != 3, 4, `status`)
+        <!--        <set>-->
+        <!--            <if test="status != 2 and status != 3">-->
+        <!--                `status` = 4,-->
+        <!--            </if>-->
+        <!--        </set>-->
         where `day` =#{date} and `attend_id` in (select `attend_id` from attend where third_time = null )
     </update>
-    <update id="checkFourthSign">
-        update user_attend
-        <set>
-            <if test="status == 5">
-                `status` = 4,
-            </if>
-        </set>
-        where `day` =#{date}
-        and `attend_id` in (select `attend_id` from attend where fourth_time = null )
-        and `attend_id` in (select `attend_id` from attend where third_time = null )
-    </update>
+    <!--    <update id="checkFourthSign">-->
+    <!--        update user_attend-->
+    <!--        <set>-->
+    <!--            <if test="status != 2 and status != 3">-->
+    <!--                `status` = 4,-->
+    <!--            </if>-->
+    <!--        </set>-->
+    <!--        where `day` =#{date} and `attend_id` in (select `attend_id` from attend where fourth_time = null )-->
+    <!--    </update>-->
 
     <update id="sign">
         update user_attend
         <set>
             `status` = #{status}
         </set>>
-        where `day`=#{date} and `user_id` = #{userId}
+        where `attend_id`= #{attendId}
+    </update>
+    <update id="signFirst">
+        update attend
+        <set>
+            <if test="first_time != null">
+                `first_time` = #{DateTime}
+            </if>
+        </set>
+        where `attend_id` = #{attendId}
+    </update>
+    <update id="signSecond">
+        update attend
+        <set>
+            <if test="second_time != null">
+                `second_time` = #{DateTime}
+            </if>
+        </set>
+        where `attend_id` = #{attendId}
+    </update>
+    <update id="signThird">
+        update attend
+        <set>
+            <if test="third_time != null">
+                `third_time` = #{DateTime}
+            </if>
+        </set>
+        where `attend_id` = #{attendId}
+    </update>
+    <update id="signFourth">
+        update attend
+        <set>
+            <if test="fourth_time != null">
+                `fourth_time` = #{DateTime}
+            </if>
+        </set>
+        where `attend_id` = #{attendId}
     </update>
 
     <select id="getAttendByUserId" resultType="cn.cachalot.intelligentattendancesystem.dto.attendDto.GetAttendRes">

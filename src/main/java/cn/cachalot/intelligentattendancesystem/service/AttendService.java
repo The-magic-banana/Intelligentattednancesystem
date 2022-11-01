@@ -13,15 +13,15 @@ public interface AttendService {
     void creatAttend();
 
     //type==1表示签到，type==2表示签退
-    boolean sign(Long userId, Integer type);
+    R<String> sign(Integer type, Long userId, Integer way, String place, String data);
 
     void checkFirstSign();
 
-    void checkSecondSign();
+//    void checkSecondSign();
 
     void checkThirdSign();
 
-    void checkFourthSign();
+//    void checkFourthSign();
 
     List<GetAttendRes> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days);
 

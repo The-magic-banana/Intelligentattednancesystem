@@ -18,19 +18,21 @@ public class CheckAttend {
         attendService.checkFirstSign();
     }
 
-    @Scheduled(cron = "0 0 12 * * ? ")
-    public void checkSecondSign() {
-        attendService.checkSecondSign();
-    }
+//    //30分钟未签退
+//    @Scheduled(cron = "0 30 12 * * ? ")
+//    public void checkSecondSign() {
+//        attendService.checkSecondSign();
+//    }
 
     @Scheduled(cron = "0 30 13 * * ? ")
     public void checkThirdSign() {
         attendService.checkThirdSign();
     }
 
-    @Scheduled(cron = "0 30 18 * * ? ")
-    public void checkFourthSign() {
-        attendService.checkFourthSign();
-    }
+//    //30分钟未签退
+//    @Scheduled(cron = "0 0 19 * * ? ")
+//    public void checkFourthSign() {
+//        attendService.checkFourthSign();
+//    }
 
 }
