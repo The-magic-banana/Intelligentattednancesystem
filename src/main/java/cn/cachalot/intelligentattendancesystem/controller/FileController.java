@@ -14,10 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 
 @RestController
@@ -29,17 +28,27 @@ public class FileController {
 
     @ApiOperation("上传照片文件")
     @PostMapping("/uploadPhoto")
-    @ApiImplicitParam(name = "photoFile", value = "文件", required = true)
-    public R<String> uploadPhoto(MultipartFile photoFile) {
-        String originalFilename = photoFile.getOriginalFilename();
-        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String fileName = LocalDateTime.now().toString() + suffix;
+    @ApiImplicitParam(name = "file", value = "文件", required = true)
+    public R<String> uploadPhoto(String file) {
+        String fileName = LocalDateTime.now().toString() + ".jpg";
         File dir = new File(basePath);
         if (!dir.exists()) {
             dir.mkdirs();
         }
         try {
-            photoFile.transferTo(new File(basePath + fileName));
+            Base64.Decoder decoder = Base64.getDecoder();
+            file = file.substring(file.indexOf(",", 1) + 1, file.length());
+            byte[] b = decoder.decode(file);
+            // 处理数据
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+            OutputStream out = new FileOutputStream(basePath.concat(fileName));
+            out.write(b);
+            out.flush();
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
