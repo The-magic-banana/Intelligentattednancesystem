@@ -76,7 +76,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         // excludePathPattern 排除拦截规则 所以我们需要放开静态资源的拦截
         registry.addInterceptor(getLoginInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/login", "/user" + "/getSMStest", "/user/SMSlogin", "/user/getSMS", "/user/login",
-                        "/doc.html", "/webjars/**", "/swagger" + "-resources", "/v2/api-docs");
+                        "/doc.html", "/webjars/**", "/swagger" + "-resources", "/v2/api-docs","/file/uploadPhoto");
     }
 
 }
