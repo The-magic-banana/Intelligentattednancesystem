@@ -39,8 +39,8 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-photo:
+data:
   path:
-    upload: photo/upload/
-    data: photo/data/
-    local: photo/local/
+    upload: data/photo/upload/
+    data: data/photo/data/
+    local: data/photo/local/

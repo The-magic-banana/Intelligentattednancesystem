@@ -10,6 +10,6 @@ import java.io.Serializable;
 @ApiModel(description = "文件")
 public class FilePara implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty("base64图片")
+    @ApiModelProperty("base64编码的文件")
     private String file;
 }

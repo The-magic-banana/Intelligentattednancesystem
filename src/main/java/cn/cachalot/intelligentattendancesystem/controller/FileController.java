@@ -17,7 +17,7 @@ import java.util.Base64;
 @RequestMapping("/file")
 @Api(tags = "文件处理相关接口")
 public class FileController {
-    @Value("${photo.path.upload}")
+    @Value("${data.path.upload}")
     private String uploadPath;
 
     @ApiOperation("上传照片文件")
@@ -25,6 +25,62 @@ public class FileController {
     public R<String> uploadPhoto(@RequestBody FilePara filePara) {
         String file = filePara.getFile();
         String fileName = LocalDateTime.now().toString() + ".jpg";
+        File dir = new File(uploadPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        try {
+            Base64.Decoder decoder = Base64.getDecoder();
+            file = file.substring(file.indexOf(",", 1) + 1, file.length());
+            byte[] b = decoder.decode(file);
+            // 处理数据
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+            OutputStream out = new FileOutputStream(uploadPath.concat(fileName));
+            out.write(b);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return R.success("上传成功!");
+    }
+    @ApiOperation("上传指纹数据")
+    @PostMapping("/uploadFingerPrint")
+    public R<String> uploadFingerPrint(@RequestBody FilePara filePara) {
+        String file = filePara.getFile();
+        String fileName = LocalDateTime.now().toString() + ".data";
+        File dir = new File(uploadPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        try {
+            Base64.Decoder decoder = Base64.getDecoder();
+            file = file.substring(file.indexOf(",", 1) + 1, file.length());
+            byte[] b = decoder.decode(file);
+            // 处理数据
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+            OutputStream out = new FileOutputStream(uploadPath.concat(fileName));
+            out.write(b);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return R.success("上传成功!");
+    }
+    @ApiOperation("上传声音数据")
+    @PostMapping("/uploadSound")
+    public R<String> uploadSound(@RequestBody FilePara filePara) {
+        String file = filePara.getFile();
+        String fileName = LocalDateTime.now().toString() + ".mp3";
         File dir = new File(uploadPath);
         if (!dir.exists()) {
             dir.mkdirs();

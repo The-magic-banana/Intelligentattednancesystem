@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 
 @Component
-public class FaceRecognizer implements CommandLineRunner {
+public class SoundRecognizer implements CommandLineRunner {
     @Value("${data.path.upload}")
     private String uploadPath;
     @Value("${data.path.data}")
@@ -29,7 +29,7 @@ public class FaceRecognizer implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         Process proc;
-        proc = Runtime.getRuntime().exec("python face.py");
+        proc = Runtime.getRuntime().exec("python sound.py");
         BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         String line = null;
         while (true) {
@@ -44,12 +44,13 @@ public class FaceRecognizer implements CommandLineRunner {
                 String time = line.substring(line.indexOf("@") + 1);
                 LocalDateTime dateTime = LocalDateTime.parse(time);
                 long dataId = IdWorker.getId();
-                File startFile = new File(uploadPath.concat(time).concat(".jpg"));
-                String data = dataPath.concat(Long.toString(dataId)).concat(".jpg");
+                File startFile = new File(uploadPath.concat(time).concat(".mp3"));
+                String data = dataPath.concat(Long.toString(dataId)).concat(".mp3");
                 File endFile = new File(data);
                 startFile.renameTo(endFile);
-                attendService.sign(0, Long.parseLong(userId), 2, null, data);
+                attendService.sign(1, Long.parseLong(userId), 4, null, data);
             }
         }
     }
 }
+
