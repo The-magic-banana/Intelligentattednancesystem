@@ -2,14 +2,12 @@ package cn.cachalot.intelligentattendancesystem.controller;
 
 import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
+import cn.cachalot.intelligentattendancesystem.dto.file.FilePara;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -28,8 +26,8 @@ public class FileController {
 
     @ApiOperation("上传照片文件")
     @PostMapping("/uploadPhoto")
-    @ApiImplicitParam(name = "file", value = "文件", required = true)
-    public R<String> uploadPhoto(String file) {
+    public R<String> uploadPhoto(@RequestBody FilePara filePara) {
+        String file = filePara.getFile();
         String fileName = LocalDateTime.now().toString() + ".jpg";
         File dir = new File(basePath);
         if (!dir.exists()) {
