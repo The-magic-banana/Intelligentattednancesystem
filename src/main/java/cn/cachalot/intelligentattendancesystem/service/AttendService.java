@@ -12,7 +12,6 @@ import java.util.List;
 public interface AttendService {
     void creatAttend();
 
-    //type==1表示签到，type==2表示签退
     R<String> sign(Integer type, Long userId, Integer way, String place, String data);
 
     void checkFirstSign();

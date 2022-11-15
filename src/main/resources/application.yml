@@ -42,4 +42,5 @@ pagehelper:
 photo:
   path:
     upload: photo/upload/
+    data: photo/data/
     local: photo/local/

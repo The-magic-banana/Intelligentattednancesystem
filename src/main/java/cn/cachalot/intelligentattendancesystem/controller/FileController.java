@@ -1,17 +1,13 @@
 package cn.cachalot.intelligentattendancesystem.controller;
 
-import cn.cachalot.intelligentattendancesystem.common.BaseContext;
 import cn.cachalot.intelligentattendancesystem.common.R;
 import cn.cachalot.intelligentattendancesystem.dto.file.FilePara;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
+
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -22,14 +18,14 @@ import java.util.Base64;
 @Api(tags = "文件处理相关接口")
 public class FileController {
     @Value("${photo.path.upload}")
-    private String basePath;
+    private String uploadPath;
 
     @ApiOperation("上传照片文件")
     @PostMapping("/uploadPhoto")
     public R<String> uploadPhoto(@RequestBody FilePara filePara) {
         String file = filePara.getFile();
         String fileName = LocalDateTime.now().toString() + ".jpg";
-        File dir = new File(basePath);
+        File dir = new File(uploadPath);
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -43,7 +39,7 @@ public class FileController {
                     b[i] += 256;
                 }
             }
-            OutputStream out = new FileOutputStream(basePath.concat(fileName));
+            OutputStream out = new FileOutputStream(uploadPath.concat(fileName));
             out.write(b);
             out.flush();
             out.close();
@@ -53,27 +49,5 @@ public class FileController {
         return R.success("上传成功!");
     }
 
-    //    @GetMapping("/download")
-    //    public void download(String name, HttpServletResponse response) {
-    //        try {
-    //            FileInputStream fileInputStream = new FileInputStream(basePath + name);
-    //            ServletOutputStream outputStream = response.getOutputStream();
-    //            response.setContentType("image/jpeg");
-    //            byte[] bytes = new byte[1024];
-    //            //            while (fileInputStream.read(bytes) != -1) {
-    //            //                outputStream.write(bytes);
-    //            //            }
-    //            int len = 0;
-    //            while ((len = fileInputStream.read(bytes)) != -1) {
-    //                outputStream.write(bytes, 0, len);
-    //                outputStream.flush();
-    //            }
-    //            outputStream.close();
-    //            fileInputStream.close();
-    //        } catch (IOException e) {
-    //            e.printStackTrace();
-    //        }
-    //
-    //    }
 
 }
