@@ -2,6 +2,7 @@ package cn.cachalot.intelligentattendancesystem.schedule;
 
 import cn.cachalot.intelligentattendancesystem.service.AttendService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import javax.annotation.Resource;
 
 @Slf4j
 @Component
+@Async
 public class CheckAttend {
     @Resource
     AttendService attendService;

@@ -15,7 +15,7 @@ import java.util.Base64;
 
 @RestController
 @RequestMapping("/file")
-@Api(tags = "文件处理相关接口")
+@Api(tags = "文件数据相关接口")
 public class FileController {
     @Value("${data.path.upload}")
     private String uploadPath;

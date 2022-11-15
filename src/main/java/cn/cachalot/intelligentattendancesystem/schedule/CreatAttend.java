@@ -3,6 +3,7 @@ package cn.cachalot.intelligentattendancesystem.schedule;
 import cn.cachalot.intelligentattendancesystem.mapper.UserMapper;
 import cn.cachalot.intelligentattendancesystem.service.AttendService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+@Async
 public class CreatAttend {
     @Resource
     AttendService attendService;
@@ -20,8 +22,8 @@ public class CreatAttend {
         attendService.creatAttend();
     }
 
-//    @Scheduled(cron = "*/15 * * * * ?")
-//    public void creatAttend() {
-//        attendService.creatAttend();
-//    }
+    //    @Scheduled(cron = "*/15 * * * * ?")
+    //    public void creatAttend() {
+    //        attendService.creatAttend();
+    //    }
 }

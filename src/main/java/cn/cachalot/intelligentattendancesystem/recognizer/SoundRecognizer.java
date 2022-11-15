@@ -4,6 +4,7 @@ import cn.cachalot.intelligentattendancesystem.service.AttendService;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 
 @Component
+@Async
 public class SoundRecognizer implements CommandLineRunner {
     @Value("${data.path.upload}")
     private String uploadPath;
