@@ -53,16 +53,17 @@ public class AttendServiceImpl implements AttendService {
             attendIds.add(tempId);
             mapList.add(map);
         }
-//        Date date = new Date(System.currentTimeMillis());
+        //        Date date = new Date(System.currentTimeMillis());
         LocalDate localDate = LocalDate.now();
         attendMapper.creatAttend(attendIds);
-//        attendMapper.creatUserAttend(date, mapList);
+        //        attendMapper.creatUserAttend(date, mapList);
         attendMapper.creatUserAttend(localDate, mapList);
 
     }
 
     @Override
-    @Transactional//事务
+    @Transactional
+    //type==1主动,==0被动
     public R<String> sign(Integer type, Long userId, Integer way, String place, String data) {
         LocalDateTime localDateTime = LocalDateTime.now();
         UserAttend userAttend = attendService.getAttendByUserIdAndDate(userId, localDateTime.toLocalDate());
@@ -80,7 +81,7 @@ public class AttendServiceImpl implements AttendService {
         LocalTime secondSignInTimeStart = LocalTime.of(13, 30);
         LocalTime secondSignInTimeEnd = LocalTime.of(14, 0);
         LocalTime secondSignOutTimeStart = LocalTime.of(18, 0);
-        LocalTime secondSignOutTimeEnd = LocalTime.of(19, 0);
+        LocalTime secondSignOutTimeEnd = LocalTime.of(18, 30);
         if (localTime.isBefore(firstSignInTimeStart)) {
             attendMapper.sign(attendId, 1);
             attendMapper.signFirst(attendId, localDateTime, place, way, data);
@@ -154,11 +155,11 @@ public class AttendServiceImpl implements AttendService {
         attendMapper.checkFirstSign(date);
     }
 
-//    @Override
-//    public void checkSecondSign() {
-//        LocalDate date = LocalDate.now();
-//        attendMapper.checkSecondSign(date);
-//    }
+    //    @Override
+    //    public void checkSecondSign() {
+    //        LocalDate date = LocalDate.now();
+    //        attendMapper.checkSecondSign(date);
+    //    }
 
     @Override
     public void checkThirdSign() {
@@ -166,11 +167,11 @@ public class AttendServiceImpl implements AttendService {
         attendMapper.checkThirdSign(date);
     }
 
-//    @Override
-//    public void checkFourthSign() {
-//        LocalDate date = LocalDate.now();
-//        attendMapper.checkFourthSign(date);
-//    }
+    //    @Override
+    //    public void checkFourthSign() {
+    //        LocalDate date = LocalDate.now();
+    //        attendMapper.checkFourthSign(date);
+    //    }
 
     @Override
     public List<GetAttendRes> getAttendByUserId(Integer pageNum, Integer pageSize, Long userId, Integer days) {
@@ -207,8 +208,7 @@ public class AttendServiceImpl implements AttendService {
 
         } else if (level.equals(1)) {
             List<GetAttendRes> list =
-                    attendMapper.getAttendByDateAndDepartment(BaseContext.getUser().getDepartment()
-                            , date);
+                    attendMapper.getAttendByDateAndDepartment(BaseContext.getUser().getDepartment(), date);
             list = list.stream().map((item) -> {
                 GetAttendRes res = new GetAttendRes();
                 BeanUtils.copyProperties(item, res);
@@ -221,8 +221,8 @@ public class AttendServiceImpl implements AttendService {
             return list;
         } else {
             List<GetAttendRes> list = new ArrayList<>();
-            GetAttendRes getAttendRes = attendMapper.getOneAttendByDateAndUserId(BaseContext.getUser().getUserId(),
-                    date);
+            GetAttendRes getAttendRes =
+                    attendMapper.getOneAttendByDateAndUserId(BaseContext.getUser().getUserId(), date);
             getAttendRes.setUser(BaseContext.getUser());
             list.add(getAttendRes);
             return list;
@@ -245,4 +245,6 @@ public class AttendServiceImpl implements AttendService {
             return R.error("无权限查看");
         }
     }
+
+
 }

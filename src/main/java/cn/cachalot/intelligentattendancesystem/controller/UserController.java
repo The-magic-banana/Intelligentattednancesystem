@@ -95,7 +95,7 @@ public class UserController {
         PageInfo<User> pageInfo = new PageInfo<User>(list);
         return R.success(pageInfo);
     }
-
+    
     @ApiOperation("发送短信验证码")
     @PostMapping("/getSMS")
     @ApiImplicitParam(name = "phone", value = "手机号码", required = true)
@@ -107,9 +107,9 @@ public class UserController {
         if (user == null) {
             return R.error("该手机号码未注册!");
         }
-        Integer codeNum = new Random().nextInt(999999);//生成随机数，最大为999999
+        Integer codeNum = new Random().nextInt(999999);
         if (codeNum < 100000) {
-            codeNum = codeNum + 100000;//保证随机数为6位数字
+            codeNum = codeNum + 100000;
         }
         String code = codeNum.toString();
         log.info("手机号为：" + phone);

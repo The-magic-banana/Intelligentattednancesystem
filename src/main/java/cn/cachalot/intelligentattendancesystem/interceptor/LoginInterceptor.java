@@ -40,14 +40,14 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) throws Exception {
-        System.out.println("beginging");
+        System.out.println("postHandle开始");
     }
 
     //controller执行结束
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
                                 Exception ex) throws Exception {
-        System.out.println("执行结束");
+        System.out.println("afterCompletion结束");
     }
 
 }

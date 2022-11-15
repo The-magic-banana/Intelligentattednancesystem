@@ -16,13 +16,9 @@
     </insert>
     <update id="checkFirstSign">
         update user_attend
-        set `status` = if(`status` = 6, 4, `status`)
-        <!--        <set>-->
-        <!--            <if test="status == 6">-->
-        <!--                `status` = 4,-->
-        <!--            </if>-->
-        <!--        </set>-->
-        where `day` =#{date}
+        set `status` = 4
+        where `day` = #{date}
+          and `status` = 6
     </update>
     <!--    <update id="checkSecondSign">-->
     <!--        update user_attend-->
@@ -35,13 +31,16 @@
     <!--    </update>-->
     <update id="checkThirdSign">
         update user_attend
-        set `status` = if(`status` != 2 and `status` != 3, 4, `status`)
+        set `status` = 4
         <!--        <set>-->
         <!--            <if test="status != 2 and status != 3">-->
         <!--                `status` = 4,-->
         <!--            </if>-->
         <!--        </set>-->
-        where `day` =#{date} and `attend_id` in (select `attend_id` from attend where third_time = null )
+        where `day` = #{date} and `status` != 2 and `status` != 3 and `attend_id` in (select `attend_id` from attend
+        where
+        `third_time`
+        IS NULL )
     </update>
     <!--    <update id="checkFourthSign">-->
     <!--        update user_attend-->
@@ -55,16 +54,23 @@
 
     <update id="sign">
         update user_attend
-        <set>
-            `status` = #{status}
-        </set>>
-        where `attend_id`= #{attendId}
+        set `status` = #{status}
+        where `attend_id` = #{attendId}
     </update>
     <update id="signFirst">
         update attend
         <set>
-            <if test="first_time != null">
-                `first_time` = #{DateTime}
+            <if test="DateTime != null">
+                `first_time` = #{DateTime},
+            </if>
+            <if test="place != null">
+                `first_place` =#{place},
+            </if>
+            <if test="way != null">
+                `first_way`=#{way},
+            </if>
+            <if test="data != null">
+                `first_data`=#{data},
             </if>
         </set>
         where `attend_id` = #{attendId}
@@ -72,8 +78,17 @@
     <update id="signSecond">
         update attend
         <set>
-            <if test="second_time != null">
-                `second_time` = #{DateTime}
+            <if test="DateTime != null">
+                `second_time` = #{DateTime},
+            </if>
+            <if test="place != null">
+                `second_place` =#{place},
+            </if>
+            <if test="way != null">
+                `second_way`=#{way},
+            </if>
+            <if test="data != null">
+                `second_data`=#{data},
             </if>
         </set>
         where `attend_id` = #{attendId}
@@ -81,8 +96,17 @@
     <update id="signThird">
         update attend
         <set>
-            <if test="third_time != null">
-                `third_time` = #{DateTime}
+            <if test="DateTime != null">
+                `third_time` = #{DateTime},
+            </if>
+            <if test="place != null">
+                `third_place` =#{place},
+            </if>
+            <if test="way != null">
+                `third_way`= #{way},
+            </if>
+            <if test="data != null">
+                `third_data`=#{data},
             </if>
         </set>
         where `attend_id` = #{attendId}
@@ -90,8 +114,17 @@
     <update id="signFourth">
         update attend
         <set>
-            <if test="fourth_time != null">
-                `fourth_time` = #{DateTime}
+            <if test="DateTime != null">
+                `fourth_time` = #{DateTime},
+            </if>
+            <if test="place != null">
+                `fourth_place` =#{place},
+            </if>
+            <if test="way != null">
+                `fourth_way`=#{way},
+            </if>
+            <if test="data != null">
+                `fourth_data`=#{data},
             </if>
         </set>
         where `attend_id` = #{attendId}

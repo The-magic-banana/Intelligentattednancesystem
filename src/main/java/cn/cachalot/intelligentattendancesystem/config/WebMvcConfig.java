@@ -55,11 +55,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("cn.cachalot.intelligentattendancesystem.controller")).paths(PathSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+                .apis(RequestHandlerSelectors.basePackage("cn.cachalot.intelligentattendancesystem.controller"))
+                .paths(PathSelectors.any()).build();
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("智能考勤系统").description("智能考勤系统").termsOfServiceUrl("http://8.142.66.212/").version("1.0").build();
+        return new ApiInfoBuilder().title("智能考勤系统").description("智能考勤系统")
+                .termsOfServiceUrl("http://8.142.66.212/").version("1.0").build();
     }
 
     @Bean
@@ -71,9 +74,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         // addPathPattern 添加拦截规则 /** 拦截所有包括静态资源
         // excludePathPattern 排除拦截规则 所以我们需要放开静态资源的拦截
-        registry.addInterceptor(getLoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/user" +
-                "/getSMStest", "/user/SMSlogin", "/user/getSMS", "/user/login", "/doc.html", "/webjars/**", "/swagger" +
-                "-resources", "/v2/api-docs");
+        registry.addInterceptor(getLoginInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/login", "/user" + "/getSMStest", "/user/SMSlogin", "/user/getSMS", "/user/login",
+                        "/doc.html", "/webjars/**", "/swagger" + "-resources", "/v2/api-docs");
     }
 
 }

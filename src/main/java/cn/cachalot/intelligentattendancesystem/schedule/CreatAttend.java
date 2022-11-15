@@ -20,7 +20,7 @@ public class CreatAttend {
         attendService.creatAttend();
     }
 
-//    @Scheduled(cron = "*/5 * * * * ?")
+//    @Scheduled(cron = "*/15 * * * * ?")
 //    public void creatAttend() {
 //        attendService.creatAttend();
 //    }

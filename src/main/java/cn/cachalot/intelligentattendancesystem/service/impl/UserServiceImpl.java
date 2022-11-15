@@ -138,12 +138,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R<LoginRes> login(LoginPara loginPara) {
-        String password = loginPara.getPassword();
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
         User user = this.selectOneByUsername(loginPara.getUserName());
         if (user == null) {
             return R.error("用户名或密码错误!");
         }
+        String password = loginPara.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!user.getPassword().equals(password)) {
             return R.error("用户名或密码错误!");
         }
