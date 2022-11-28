@@ -33,7 +33,6 @@ public class FileController {
             Base64.Decoder decoder = Base64.getDecoder();
             file = file.substring(file.indexOf(",", 1) + 1, file.length());
             byte[] b = decoder.decode(file);
-            // 处理数据
             for (int i = 0; i < b.length; ++i) {
                 if (b[i] < 0) {
                     b[i] += 256;

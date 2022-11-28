@@ -41,6 +41,6 @@ pagehelper:
   params: count=countSql
 data:
   path:
-    upload: data/photo/upload/
-    data: data/photo/data/
-    local: data/photo/local/
+    upload: data/upload/
+    data: data/data/
+    local: data/local/
